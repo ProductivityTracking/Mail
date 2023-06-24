@@ -1,0 +1,47 @@
+public void sendOTPMail(String recipient, String otp) {
+		System.out.println("mail1");
+
+		Properties p = new Properties();
+		System.out.println("mail2");
+		p.put("mail.smtp.host", "smtp.gmail.com");
+		p.put("mail.smtp.auth", true);
+		p.put("mail.smtp.starttls.enable", true);
+		p.put("mail.smtp.port", "587");
+		System.out.println("mail3");
+		Session s = Session.getInstance(p, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("tarunkolli33@gmail.com", "rokq tuyj ltmd abdg");
+			}
+		});
+		try {
+			MimeMessage mm = new MimeMessage(s);
+			System.out.println("mail4");
+			mm.setFrom(new InternetAddress("tarunkolli33@gmail.com"));
+			mm.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+			mm.setSubject("Forget Password");
+			mm.setText("OTP TO RESELT PASSWORD" + "your otp for password reset is " + otp
+					+ " please use it quickly as IT IS ACTIVE FOR 3MIN ONLY");
+			System.out.println("mail5");
+			Transport.send(mm);
+			System.out.println("mail6");
+			System.out.println(
+					"your otp for password reset is " + otp + " please use it quickly as IT IS ACTIVE FOR 3MIN ONLY");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public String generateOTP() {
+		int otpLength = 6; // Length of the OTP
+
+		// Generate the OTP
+		StringBuilder otp = new StringBuilder();
+		while (otp.length() < otpLength) {
+			UUID uuid = UUID.randomUUID();
+			otp.append(uuid.toString().replaceAll("-", "").substring(0, otpLength - otp.length()));
+		}
+
+		return otp.toString();
+	}
+=======================================================================================================
